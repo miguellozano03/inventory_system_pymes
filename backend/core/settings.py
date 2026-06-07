@@ -41,7 +41,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders'
+    #ThirdParty
+    'corsheaders',
+    #Own
+    'apps.accounts',
+    'apps.companies',
+    'apps.inventory',
+    'apps.customers',
+    'apps.transactions',
 ]
 
 MIDDLEWARE = [
@@ -103,6 +110,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+AUTH_USER_MODEL = 'accounts.User'
 
 
 # Internationalization
