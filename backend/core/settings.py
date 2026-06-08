@@ -43,6 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #ThirdParty
     'corsheaders',
+    'ninja',
+    'ninja_extra',
+    'ninja_jwt',
     #Own
     'apps.accounts',
     'apps.companies',
