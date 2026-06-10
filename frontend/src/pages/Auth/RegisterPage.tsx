@@ -1,4 +1,7 @@
+import { Link } from "react-router-dom";
 import { useState } from "react";
+
+import { useRegister } from "@/hooks/auth";
 
 export const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -13,7 +16,9 @@ export const RegisterPage = () => {
     company_phone: "",
   });
 
-  const handleChange = (e: any) => {
+  const { registerUser } = useRegister();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -21,10 +26,12 @@ export const RegisterPage = () => {
     }));
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Aquí manejas la lógica de envío del JSON
-    console.log(formData);
+
+    try {
+      await registerUser(formData);
+    } catch (error) {}
   };
 
   return (
@@ -189,6 +196,16 @@ export const RegisterPage = () => {
               REGISTRAR
             </button>
           </div>
+
+          <p>
+            ¿Ya tienes cuenta?{" "}
+            <Link
+              to="/login"
+              className="text-inv-primary font-bold hover:underline"
+            >
+              Inicia sessión aquí
+            </Link>
+          </p>
         </form>
       </div>
     </div>

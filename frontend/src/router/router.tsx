@@ -1,34 +1,42 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import { LoginPage, RegisterPage } from "../pages/Auth";
+import { LoginPage, RegisterPage } from "@/pages/Auth";
+import { PublicRoute, ProtectedRoute } from "./routes";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    // Si entran a la raíz, los mandamos directo al login por ahora
-    element: <Navigate to="/login" replace />,
+    element: <Navigate to="/dashboard" replace />,
   },
+
   {
-    path: "/login",
-    element: <LoginPage />,
+    element: <PublicRoute />,
+    children: [
+      {
+        path: "/login",
+        element: <LoginPage />,
+      },
+      {
+        path: "/register",
+        element: <RegisterPage />,
+      },
+    ],
   },
+
   {
-    path: "/register",
-    element: <RegisterPage />,
-  },
-  {
-    path: "/dashboard",
-    element: (
-      <div className="p-8 text-2xl font-bold">
-        ¡Aquí va tu tabla de inventario! 📦
-      </div>
-    ),
+    element: <ProtectedRoute />,
+    children: [
+      {
+        path: "/dashboard",
+        element: (
+          <div>
+            ¡Bienvenido al Dashboard del Inventario! (Aquí va tu componente)
+          </div>
+        ),
+      },
+    ],
   },
   {
     path: "*",
-    element: (
-      <div className="h-screen flex items-center justify-center text-xl font-semibold">
-        404 - Ruta no encontrada
-      </div>
-    ),
+    element: <div>404 - Not Found</div>,
   },
 ]);
