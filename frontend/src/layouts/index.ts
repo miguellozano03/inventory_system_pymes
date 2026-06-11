@@ -1,0 +1,2 @@
+export { InventoryLayout } from "./InventoryLayout";
+
