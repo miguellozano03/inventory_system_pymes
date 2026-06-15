@@ -1,4 +1,4 @@
-import { Sidebar } from "@/pages/Dashboard/components";
+import { Sidebar } from "@/pages/Inventory/components";
 import { Outlet } from "react-router-dom";
 
 export function InventoryLayout() {

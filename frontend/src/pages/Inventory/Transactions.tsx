@@ -1,6 +1,6 @@
 import { Plus } from "lucide-react";
-import { InventoryTable, FilterSelect } from "./components/";
-import type { Transaction } from "@/types/transactions";
+import { InventoryTable, FilterSelect } from "./components";
+import type { Transaction } from "@/types/inventory";
 
 const TRANSACTION_COLUMNS = [
   { key: "type", label: "Tipo" },

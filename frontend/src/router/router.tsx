@@ -1,12 +1,12 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import { LoginPage, RegisterPage } from "@/pages/Auth";
 import {
-  Inventory,
+  Product,
   Customers,
   Transactions,
   Profile,
   Settings,
-} from "@/pages/Dashboard";
+} from "@/pages/Inventory";
 import { InventoryLayout } from "@/layouts";
 import { PublicRoute, ProtectedRoute } from "./routes";
 
@@ -31,14 +31,13 @@ export const router = createBrowserRouter([
   },
 
   {
-    element: <ProtectedRoute />, // ← cuando lo actives|
-    // element: <PublicRoute />,
+    element: <ProtectedRoute />,
     children: [
       {
         path: "/dashboard",
         element: <InventoryLayout />,
         children: [
-          { path: "inventory", element: <Inventory /> },
+          { path: "inventory", element: <Product /> },
           { path: "customers", element: <Customers /> },
           { path: "transactions", element: <Transactions /> },
           { path: "profile", element: <Profile /> },

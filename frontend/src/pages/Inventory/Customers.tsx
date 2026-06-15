@@ -1,8 +1,9 @@
 import { Plus } from "lucide-react";
-import { InventoryTable, FilterSelect } from "./components/";
-import type { Customer } from "@/types/customers";
+import { InventoryTable, FilterSelect } from "./components";
+import { useCustomers } from "@/hooks/inventory/customer";
+import type { Customer } from "@/types/inventory";
 
-const CUSTOMER_COLUMNS = [
+const CUSTOMER_COLUMNS: { key: keyof Customer; label: string }[] = [
   { key: "identification", label: "Identificación" },
   { key: "name", label: "Nombre" },
   { key: "email", label: "Email" },
@@ -11,26 +12,16 @@ const CUSTOMER_COLUMNS = [
   { key: "created_at", label: "Registrado" },
 ];
 
-function toTableRow(c: Customer): Record<string, string> {
-  return {
-    identification: c.identification,
-    name: c.name,
-    email: c.email ?? "—",
-    phone: c.phone ?? "—",
-    address: c.address ?? "—",
-    created_at: new Date(c.created_at).toLocaleDateString("es-CO"),
-  };
-}
-
-interface CustomersProps {
-  data?: Customer[];
-}
-
-export function Customers({ data = [] }: CustomersProps) {
-  const rows = data.map(toTableRow);
+export function Customers() {
+  const { customers, loading, error } = useCustomers();
 
   return (
     <div className="flex flex-col gap-4 h-full">
+      {error && (
+        <div className="text-sm text-red-500 bg-red-50 border border-red-200 rounded-lg px-4 py-2">
+          {error}
+        </div>
+      )}
       <div className="flex items-center gap-3 flex-wrap">
         <FilterSelect label="Identificación" />
         <FilterSelect label="Nombre" />
@@ -43,7 +34,8 @@ export function Customers({ data = [] }: CustomersProps) {
 
       <InventoryTable
         columns={CUSTOMER_COLUMNS}
-        data={rows.length ? rows : undefined}
+        data={customers}
+        loading={loading}
       />
     </div>
   );

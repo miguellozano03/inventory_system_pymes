@@ -1,21 +1,24 @@
-interface Column {
-  key: string;
+interface Column<T> {
+  key: keyof T;
   label: string;
+  render?: (value: T[keyof T], row: T) => React.ReactNode;
 }
 
-interface InventoryTableProps {
-  columns: Column[];
-  data?: Record<string, React.ReactNode>[];
+interface InventoryTableProps<T> {
+  columns: Column<T>[];
+  data?: T[];
   emptyRows?: number;
+  loading?: boolean;
 }
 
 const DEFAULT_EMPTY_ROWS = 9;
 
-export function InventoryTable({
+export function InventoryTable<T>({
   columns,
   data,
   emptyRows = DEFAULT_EMPTY_ROWS,
-}: InventoryTableProps) {
+  loading = false,
+}: InventoryTableProps<T>) {
   const rows =
     data && data.length > 0
       ? data
@@ -28,7 +31,7 @@ export function InventoryTable({
           <tr className="bg-inv-primary">
             {columns.map((col) => (
               <th
-                key={col.key}
+                key={String(col.key)}
                 className="text-white text-xs font-semibold text-center px-3 py-3 border-r border-[#7a6bb8] last:border-r-0 whitespace-nowrap"
               >
                 {col.label}
@@ -49,7 +52,17 @@ export function InventoryTable({
                   key={colIdx}
                   className="px-3 py-3 border-r border-inv-border/60 last:border-r-0 border-b border-b-inv-border/40 text-sm text-inv-dark"
                 >
-                  {row ? (row[col.key] ?? "—") : <>&nbsp;</>}
+                  {loading ? (
+                    <span className="block h-3 w-3/4 mx-auto bg-inv-border/40 rounded animate-pulse" />
+                  ) : row ? (
+                    col.render ? (
+                      col.render(row[col.key], row)
+                    ) : (
+                      ((row[col.key] as React.ReactNode) ?? "—")
+                    )
+                  ) : (
+                    <>&nbsp;</>
+                  )}
                 </td>
               ))}
             </tr>
