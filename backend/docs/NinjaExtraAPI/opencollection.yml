@@ -1,0 +1,65 @@
+opencollection: 1.0.0
+
+info:
+  name: NinjaExtraAPI
+config:
+  proxy:
+    inherit: true
+    config:
+      protocol: http
+      hostname: ""
+      port: ""
+      auth:
+        username: ""
+        password: ""
+      bypassProxy: ""
+
+docs:
+  content: |-
+    # 🚀 Suite de Pruebas de API - Inventory System PYME (ADSO)
+
+    ¡Bienvenido a la documentación de la colección de pruebas para **Inventory System PYME**! Este espacio contiene el conjunto de peticiones HTTP configuradas en Bruno para interactuar, testear y auditar los endpoints del backend de nuestro proyecto formativo.
+
+    ---
+
+    ## 📌 Descripción General
+
+    El propósito de esta colección es facilitar el desarrollo, la depuración y las pruebas de integración del sistema de gestión de inventarios diseñado para Pequeñas y Medianas Empresas (PYMEs). 
+
+    * **Propósito del Proyecto:** Automatizar y controlar el flujo de inventario (entradas, salidas, stock, costos y precios de venta) de manera eficiente y centralizada.
+    * **Funcionalidades Clave Evaluadas:**
+      * Autenticación segura de usuarios y roles de administración.
+      * Gestión modular del catálogo de productos y control de stock en tiempo real.
+      * Vinculación de proveedores y categorías mediante identificadores estructurados.
+    * **Objetivo de la Colección:** Servir como entorno de pruebas interactivo ("laboratorio") para garantizar el correcto funcionamiento de la API antes de su consumo por parte del cliente móvil/web.
+
+    ---
+
+    ## 🛠️ Buenas Prácticas para el Desarrollo (ADSO)
+
+    Para mantener el repositorio bajo los estándares de calidad y principios de *Clean Code* exigidos en el programa formativo, sigue estas pautas:
+
+    1. **Sincronización con el Backend:** Si modificas un endpoint en los controladores del backend, actualiza inmediatamente el request correspondiente en Bruno.
+    2. **Uso Estricto de Variables:** No quemes (hardcodees) URLs ni credenciales. Utiliza las variables de entorno de Bruno (ej. `{{base_url}}` y `{{token}}`).
+    3. **Manejo de Errores:** Deja registrados escenarios de prueba tanto exitosos (`200 OK`, `201 Created`) como de fallo (`400 Bad Request`, `401 Unauthorized`) para validar las excepciones del sistema.
+    4. **Seguridad de Datos:** Asegúrate de no incluir credenciales ni tokens reales en los archivos que se subirán al repositorio de Git.
+
+    ---
+
+    ## 📂 Estructura Modular de la Colección
+
+    Los endpoints están organizados reflejando la arquitectura limpia del backend, facilitando su mantenimiento y lectura en texto plano dentro del repositorio:
+
+    * `📂 Auth & Users/` -> Registro, inicio de sesión (Login) y gestión de perfiles del sistema.
+    * `📂 Products/` -> Operaciones CRUD para el catálogo de mercancía, control de precios (costo/venta) y estados activos.
+
+    ---
+
+    > 💡 **Nota del Proyecto:** Mientras que el Swagger generado por el framework sirve como la documentación estática y descriptiva de la arquitectura de la API, esta suite en Bruno representa la herramienta de ejecución y testing dinámico del equipo de desarrollo.
+  type: text/markdown
+bundled: false
+extensions:
+  bruno:
+    ignore:
+      - node_modules
+      - .git

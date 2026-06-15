@@ -1,0 +1,66 @@
+info:
+  name: Create Customer
+  type: http
+  seq: 2
+  tags:
+    - Inventory_-_Customers
+
+http:
+  method: POST
+  url: "{{baseUrl}}/api/contacts/customers"
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Customer prueba",
+        "identification": "424214",
+        "email": "mfasda@gmail.com",
+        "phone": "214124",
+        "address": "2da"
+      }
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 201 Response
+    description: Created
+    request:
+      url: "{{baseUrl}}/api/contacts/customers"
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "name": "",
+            "identification": "",
+            "email": "",
+            "phone": "",
+            "address": ""
+          }
+    response:
+      status: 201
+      statusText: Created
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "id": "",
+            "company_id": "",
+            "name": "",
+            "identification": "",
+            "email": "",
+            "phone": "",
+            "address": "",
+            "created_at": "",
+            "updated_at": ""
+          }

@@ -1,0 +1,81 @@
+info:
+  name: Create Transaction
+  type: http
+  seq: 2
+  tags:
+    - Inventory_-_Transactions
+
+http:
+  method: POST
+  url: "{{baseUrl}}/api/transactions"
+  body:
+    type: json
+    data: |-
+      {
+        "type": "IN",
+        "customer_id": "",
+        "supplier_id": "",
+        "details": [
+          {
+            "product_id": "",
+            "quantity": 0
+          }
+        ]
+      }
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 201 Response
+    description: Created
+    request:
+      url: "{{baseUrl}}/api/transactions"
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "type": "IN",
+            "customer_id": "",
+            "supplier_id": "",
+            "details": [
+              {
+                "product_id": "",
+                "quantity": 0
+              }
+            ]
+          }
+    response:
+      status: 201
+      statusText: Created
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "id": "",
+            "type": "",
+            "total": 0,
+            "customer_id": "",
+            "supplier_id": "",
+            "created_at": "",
+            "details": [
+              {
+                "id": "",
+                "product_id": "",
+                "product_name": "",
+                "quantity": 0,
+                "unit_price": 0,
+                "subtotal": 0
+              }
+            ]
+          }

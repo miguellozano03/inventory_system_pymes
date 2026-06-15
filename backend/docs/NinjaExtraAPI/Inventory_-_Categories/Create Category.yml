@@ -1,0 +1,55 @@
+info:
+  name: Create Category
+  type: http
+  seq: 2
+  tags:
+    - Inventory_-_Categories
+
+http:
+  method: POST
+  url: "{{baseUrl}}/api/inventory/categories"
+  body:
+    type: json
+    data: |-
+      {
+          "name": "Suplementos y Energía",
+          "description": "Bebidas energizantes, hidratantes y complementos nutricionales para mejorar el rendimiento y la concentración."
+        }
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 201 Response
+    description: Created
+    request:
+      url: "{{baseUrl}}/api/inventory/categories"
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "name": "",
+            "description": ""
+          }
+    response:
+      status: 201
+      statusText: Created
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "id": "",
+            "company_id": "",
+            "name": "",
+            "description": ""
+          }

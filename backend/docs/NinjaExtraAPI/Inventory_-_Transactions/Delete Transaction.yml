@@ -1,0 +1,40 @@
+info:
+  name: Delete Transaction
+  type: http
+  seq: 4
+  tags:
+    - Inventory_-_Transactions
+
+http:
+  method: DELETE
+  url: "{{baseUrl}}/api/transactions/:transaction_id"
+  params:
+    - name: transaction_id
+      value: ""
+      type: path
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 204 Response
+    description: No Content
+    request:
+      url: "{{baseUrl}}/api/transactions/:transaction_id"
+      method: DELETE
+      params:
+        - name: transaction_id
+          value: ""
+          type: path
+    response:
+      status: 204
+      statusText: No Content
+      body:
+        type: text
+        data: ""

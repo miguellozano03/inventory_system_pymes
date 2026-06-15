@@ -1,0 +1,77 @@
+info:
+  name: Create Product
+  type: http
+  seq: 2
+  tags:
+    - Inventory_-_Products
+
+http:
+  method: POST
+  url: "{{baseUrl}}/api/inventory/products"
+  body:
+    type: json
+    data: |-
+      {
+          "category_id": "a80e365b-06f7-44aa-8c90-0b9be22245bd",
+          "internal_reference": "REF-BOX-001",
+          "name": "Guantes de Boxeo Pro Sparring 14oz",
+          "description": "Guantes de cuero sintético de alta resistencia con triple capa de espuma de impacto y ajuste de velcro reforzado.",
+          "stock": 25,
+          "cost_price": 120000,
+          "sale_price": 189900,
+          "is_active": true
+        }
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 201 Response
+    description: Created
+    request:
+      url: "{{baseUrl}}/api/inventory/products"
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "category_id": "",
+            "supplier_id": "",
+            "internal_reference": "",
+            "name": "",
+            "description": "",
+            "stock": 0,
+            "cost_price": "",
+            "sale_price": "",
+            "is_active": false
+          }
+    response:
+      status: 201
+      statusText: Created
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "id": "",
+            "company_id": "",
+            "category_id": "",
+            "supplier_id": "",
+            "internal_reference": "",
+            "name": "",
+            "description": "",
+            "stock": 0,
+            "cost_price": "",
+            "sale_price": "",
+            "is_active": false,
+            "created_at": "",
+            "updated_at": ""
+          }

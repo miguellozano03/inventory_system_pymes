@@ -1,0 +1,4 @@
+#!/bin/bash
+echo "Iniciando backend..."
+source venv/bin/activate
+python manage.py runserver

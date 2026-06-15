@@ -1,0 +1,40 @@
+info:
+  name: Delete Customer
+  type: http
+  seq: 5
+  tags:
+    - Inventory_-_Customers
+
+http:
+  method: DELETE
+  url: "{{baseUrl}}/api/contacts/customers/:customer_id"
+  params:
+    - name: customer_id
+      value: ""
+      type: path
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 204 Response
+    description: No Content
+    request:
+      url: "{{baseUrl}}/api/contacts/customers/:customer_id"
+      method: DELETE
+      params:
+        - name: customer_id
+          value: ""
+          type: path
+    response:
+      status: 204
+      statusText: No Content
+      body:
+        type: text
+        data: ""

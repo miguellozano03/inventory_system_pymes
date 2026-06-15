@@ -1,7 +1,7 @@
 #!/bin/bash
 mkdir -p apps/
 
-apps=("accounts" "companies" "inventory" "customers" "transactions")
+apps=("accounts" "companies" "inventory" "contacts" "transactions")
 for app in "${apps[@]}"; do
     if [ -d "$app"]; then
         echo "La aplicacion $app ya existe en apps/, omitiendo..."
