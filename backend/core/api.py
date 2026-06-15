@@ -3,8 +3,8 @@ from ninja_jwt.controller import NinjaJWTDefaultController
 from ninja_extra import NinjaExtraAPI
 
 from apps.accounts.controller import UserController
-from apps.inventory.controller import CategoryController, SupplierController, ProductController
-from apps.customers.controller import CustomerController
+from apps.inventory.controller import CategoryController, ProductController
+from apps.contacts.controller import CustomerController, SupplierController
 from apps.transactions.controller import TransactionController
 
 

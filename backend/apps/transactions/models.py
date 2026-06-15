@@ -13,8 +13,8 @@ class Transaction(models.Model):
     company = models.ForeignKey('companies.Company', on_delete=models.CASCADE, related_name='transactions')
     user = models.ForeignKey('accounts.User', on_delete=models.PROTECT, related_name='transactions')
     
-    customer = models.ForeignKey('customers.Customer', on_delete=models.SET_NULL, null=True, blank=True, related_name='transactions')
-    supplier = models.ForeignKey('inventory.Supplier', on_delete=models.SET_NULL, null=True, blank=True, related_name='transactions')
+    customer = models.ForeignKey('contacts.Customer', on_delete=models.SET_NULL, null=True, blank=True, related_name='transactions')
+    supplier = models.ForeignKey('contacts.Supplier', on_delete=models.SET_NULL, null=True, blank=True, related_name='transactions')
     
     type = models.CharField(max_length=3, choices=TRANSACTION_TYPES)
     total = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)

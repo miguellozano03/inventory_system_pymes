@@ -12,7 +12,7 @@ http:
     type: json
     data: |-
       {
-          "category_id": "a80e365b-06f7-44aa-8c90-0b9be22245bd",
+          "category_id": "592f8ff1-ee0a-4efb-8763-3eec7d7781c7",
           "internal_reference": "REF-BOX-001",
           "name": "Guantes de Boxeo Pro Sparring 14oz",
           "description": "Guantes de cuero sintético de alta resistencia con triple capa de espuma de impacto y ajuste de velcro reforzado.",

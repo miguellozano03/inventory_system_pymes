@@ -26,46 +26,6 @@ class CategoryUpdate(Schema):
 
 
 # ──────────────────────────────────────────
-# Supplier
-# ──────────────────────────────────────────
-
-class SupplierIn(Schema):
-    name: str
-    contact_name: Optional[str] = None
-    email: Optional[str] = None
-    phone: Optional[str] = None
-    address: Optional[str] = None
-
-
-class SupplierOut(Schema):
-    id: uuid.UUID
-    company_id: uuid.UUID
-    name: str
-    contact_name: Optional[str] = None
-    email: Optional[str] = None
-    phone: Optional[str] = None
-    address: Optional[str] = None
-    created_at: str
-    updated_at: str
-
-    @staticmethod
-    def resolve_created_at(obj):
-        return obj.created_at.isoformat()
-
-    @staticmethod
-    def resolve_updated_at(obj):
-        return obj.updated_at.isoformat()
-
-
-class SupplierUpdate(Schema):
-    name: Optional[str] = None
-    contact_name: Optional[str] = None
-    email: Optional[str] = None
-    phone: Optional[str] = None
-    address: Optional[str] = None
-
-
-# ──────────────────────────────────────────
 # Product
 # ──────────────────────────────────────────
 

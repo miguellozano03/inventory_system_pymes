@@ -12,15 +12,15 @@ http:
     type: json
     data: |-
       {
-        "email": "",
-        "password": "",
-        "first_name": "",
-        "last_name": "",
-        "identification": "",
-        "company_name": "",
-        "company_nit": "",
-        "company_email": "",
-        "company_phone": ""
+        "email": "carlos.mendoza@pymetech.co",
+        "password": "Password123*",
+        "first_name": "Carlos",
+        "last_name": "Mendoza",
+        "identification": "1042789456",
+        "company_name": "PymeTech Soluciones S.A.S.",
+        "company_nit": "901456789-2",
+        "company_email": "contacto@pymetech.co",
+        "company_phone": "3157894512"
       }
   auth: inherit
 

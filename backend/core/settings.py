@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'apps.accounts',
     'apps.companies',
     'apps.inventory',
-    'apps.customers',
+    'apps.contacts',
     'apps.transactions',
 ]
 
@@ -112,6 +112,10 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+]
+
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.MD5PasswordHasher',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
