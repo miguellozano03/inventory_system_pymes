@@ -27,10 +27,10 @@ export const useCustomer = (id: string) => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [id]);
 
   const update = async (payload: CustomerUpdate) => {
-    setLoading(true);
+    setUpdating(true);
     setError(null);
 
     try {

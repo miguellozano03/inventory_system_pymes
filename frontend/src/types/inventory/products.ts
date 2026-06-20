@@ -1,6 +1,6 @@
 export interface ProductCreate {
   category_id: string;
-  supplier_id: string;
+  supplier_id?: string;
   internal_reference: string;
   name: string;
   description: string | null;

@@ -36,6 +36,8 @@ export const useProducts = () => {
       const message =
         error instanceof Error ? error.message : "Failed to fetch products";
       setError(message);
+    } finally {
+      setCreating(false);
     }
   };
 

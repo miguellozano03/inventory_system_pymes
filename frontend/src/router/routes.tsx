@@ -8,5 +8,5 @@ export const ProtectedRoute = () => {
 
 export const PublicRoute = () => {
   const { isAuthenticated } = useAuth();
-  return !isAuthenticated ? <Outlet /> : <Navigate to="/dashboard/inventory" replace />;
+  return !isAuthenticated ? <Outlet /> : <Navigate to="/dashboard" replace />;
 };

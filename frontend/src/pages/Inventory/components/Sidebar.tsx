@@ -12,7 +12,7 @@ export const Sidebar = () => {
   return (
     <div className="flex flex-col h-screen w-full justify-between items-center py-8">
       <div className="flex flex-col gap-8">
-        <Link to="/dashboard/inventory">
+        <Link to="/dashboard/products">
           <Archive size={40} />
         </Link>
         <Link to="/dashboard/transactions">
