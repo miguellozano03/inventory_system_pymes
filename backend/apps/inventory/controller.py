@@ -7,6 +7,7 @@ from ninja_extra import api_controller, route
 from ninja_jwt.authentication import JWTAuth
 from ninja.errors import HttpError
 
+from apps.contacts.models import Supplier
 from .models import Category, Product
 from .schemas import (
     CategoryIn, CategoryOut, CategoryUpdate,

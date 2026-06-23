@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404
 from ninja.errors import HttpError
 
 from apps.contacts.models import Customer, Supplier
+from apps.inventory.models import Product
 from .models import Transaction, TransactionDetail
 
 

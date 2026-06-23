@@ -47,6 +47,7 @@ class ProductOut(Schema):
     category_id: uuid.UUID
     category_name: str
     supplier_id: Optional[uuid.UUID] = None
+
     internal_reference: str
     name: str
     description: Optional[str] = None
@@ -56,10 +57,14 @@ class ProductOut(Schema):
     is_active: bool
     created_at: str
     updated_at: str
-    
+
     @staticmethod
     def resolve_category_name(obj):
         return obj.category.name if obj.category else None
+
+    @staticmethod
+    def resolve_supplier_id(obj):
+        return obj.supplier.id if obj.supplier else None
 
     @staticmethod
     def resolve_supplier_name(obj):

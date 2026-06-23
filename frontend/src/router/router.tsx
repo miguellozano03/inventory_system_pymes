@@ -2,7 +2,9 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import { LoginPage, RegisterPage } from "@/pages/Auth";
 import {
   Product,
+  Category,
   Customers,
+  Supplier,
   Transactions,
   Profile,
   Settings,
@@ -43,6 +45,8 @@ export const router = createBrowserRouter([
           { path: "transactions", element: <Transactions /> },
           { path: "profile", element: <Profile /> },
           { path: "settings", element: <Settings /> },
+          { path: "categories", element: <Category /> },
+          { path: "suppliers", element: <Supplier /> },
 
           {
             path: ":module/:action/:id?",

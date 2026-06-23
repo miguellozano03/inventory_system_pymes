@@ -45,6 +45,10 @@ export default function ProductFormFields({
       is_active: formData.get("is_active") === "true",
     };
 
+    console.log("PRODUCT", product);
+    console.log("CATEGORIES", categories);
+    console.log("PAYLOAD", payload);
+
     await onSubmit(payload);
   };
 
@@ -89,9 +93,9 @@ export default function ProductFormFields({
           </label>
 
           <select
+            key={product?.category_id}
             name="category_id"
-            defaultValue={product?.category_id}
-            className="w-full px-3 py-2 border border-inv-border rounded-md focus:outline-none focus:border-inv-primary text-sm"
+            defaultValue={product?.category_id ?? ""}
             disabled={categoriesLoading}
           >
             <option value="" hidden>
@@ -114,9 +118,9 @@ export default function ProductFormFields({
           </label>
 
           <select
+            key={product?.supplier_id}
             name="supplier_id"
-            defaultValue={product?.supplier_id}
-            className="w-full px-3 py-2 border border-inv-border rounded-md focus:outline-none focus:border-inv-primary text-sm"
+            defaultValue={product?.supplier_id ?? ""}
             disabled={suppliersLoading}
           >
             <option value="" hidden>

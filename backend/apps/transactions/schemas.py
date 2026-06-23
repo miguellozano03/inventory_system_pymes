@@ -4,6 +4,34 @@ from ninja import Schema
 from typing import Literal
 
 
+# ─────────────────────────────
+# Basic references
+# ─────────────────────────────
+
+class CustomerOut(Schema):
+    id: uuid.UUID
+    name: str
+
+
+class SupplierOut(Schema):
+    id: uuid.UUID
+    name: str
+
+
+class ProductOut(Schema):
+    id: uuid.UUID
+    name: str
+    internal_reference: str
+    
+class UserOut(Schema):
+    id: uuid.UUID
+    email: str
+
+
+# ─────────────────────────────
+# Transaction input
+# ─────────────────────────────
+
 class TransactionDetailIn(Schema):
     product_id: uuid.UUID
     quantity: int
@@ -18,11 +46,14 @@ class TransactionIn(Schema):
     details: list[TransactionDetailIn]
 
 
+# ─────────────────────────────
+# Transaction output
+# ─────────────────────────────
+
 class TransactionDetailOut(Schema):
     id: uuid.UUID
 
-    product_id: uuid.UUID
-    product_name: str
+    product: ProductOut
 
     quantity: int
     unit_price: float
@@ -35,8 +66,9 @@ class TransactionOut(Schema):
     type: str
     total: float
 
-    customer_id: uuid.UUID | None = None
-    supplier_id: uuid.UUID | None = None
+    customer: CustomerOut | None = None
+    supplier: SupplierOut | None = None
+    user: UserOut
 
     created_at: datetime
 
