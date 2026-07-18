@@ -1,3 +1,4 @@
+from typing import Optional
 from .models import User
 from ninja import Schema, ModelSchema
 from pydantic import EmailStr
@@ -18,3 +19,14 @@ class RegisterSchema(Schema):
     company_nit: str
     company_email: str
     company_phone: str
+    
+class UpdateMeSchema(Schema):
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    identification: Optional[str] = None
+    email: Optional[EmailStr] = None
+
+
+class ChangePasswordSchema(Schema):
+    old_password: str
+    new_password: str

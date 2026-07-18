@@ -35,3 +35,36 @@ class UserService:
         )
 
         return user
+    
+    @staticmethod
+    @transaction.atomic
+    def update_me(user_id: UUID, data: dict):
+        user = User.objects.select_for_update().get(id=user_id)
+
+        new_email = data.get("email")
+        if new_email and new_email != user.email:
+            if User.objects.exclude(id=user.id).filter(email=new_email).exists():
+                raise ValueError("El email ya está en uso")
+
+        allowed_fields = {"first_name", "last_name", "identification", "email"}
+        for field, value in data.items():
+            if field in allowed_fields and value is not None:
+                setattr(user, field, value)
+
+        user.save()
+        return user
+
+    @staticmethod
+    @transaction.atomic
+    def change_password(user_id: UUID, old_password: str, new_password: str):
+        user = User.objects.select_for_update().get(id=user_id)
+
+        if not user.check_password(old_password):
+            raise ValueError("La contraseña actual es incorrecta")
+
+        if len(new_password) < 8:
+            raise ValueError("La nueva contraseña debe tener al menos 8 caracteres")
+
+        user.set_password(new_password)
+        user.save()
+        return user

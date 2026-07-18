@@ -1,24 +1,8 @@
-import { useState } from "react";
-import { User } from "lucide-react";
-
-interface ProfileForm {
-  first_name: string;
-  last_name: string;
-  email: string;
-  phone: string;
-  current_password: string;
-  new_password: string;
-  confirm_password: string;
-}
-
-const MOCK_USER = {
-  first_name: "Manuel",
-  last_name: "Garcia",
-  identification: "104124190",
-  email: "manuel@inventario.com",
-  phone: "310588312",
-  role: "Administrador",
-};
+import { useState, useEffect } from "react";
+import { User as UserIcon } from "lucide-react";
+import { useMe } from "@/hooks/auth/useMe";
+import { useUpdateProfile } from "@/hooks/auth/useUpdateProfile";
+import { useChangePassword } from "@/hooks/auth/useChangePassword";
 
 interface FieldProps {
   label: string;
@@ -49,53 +33,125 @@ function Field({
 }
 
 export function Profile() {
-  const [form, setForm] = useState<ProfileForm>({
-    first_name: MOCK_USER.first_name,
-    last_name: MOCK_USER.last_name,
-    email: MOCK_USER.email,
-    phone: MOCK_USER.phone,
+  const { user, setUser, isLoading: isLoadingUser } = useMe();
+  const {
+    updateProfile,
+    isLoading: isSavingProfile,
+    error: profileError,
+  } = useUpdateProfile();
+  const {
+    changePassword,
+    isLoading: isSavingPassword,
+    error: passwordError,
+    success: passwordSuccess,
+  } = useChangePassword();
+
+  const [form, setForm] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+  });
+
+  const [passwordForm, setPasswordForm] = useState({
     current_password: "",
     new_password: "",
     confirm_password: "",
   });
 
-  const set = (key: keyof ProfileForm) => (val: string) =>
+  const [passwordMismatch, setPasswordMismatch] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      setForm({
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+      });
+    }
+  }, [user]);
+
+  const setField = (key: keyof typeof form) => (val: string) =>
     setForm((prev) => ({ ...prev, [key]: val }));
 
-  const handleSubmit = () => {
-    // TODO: connect to API
-    console.log("Saving profile:", form);
+  const setPasswordField = (key: keyof typeof passwordForm) => (val: string) =>
+    setPasswordForm((prev) => ({ ...prev, [key]: val }));
+
+  const handleSaveProfile = async () => {
+    if (!user) return;
+
+    const payload: Record<string, string> = {};
+    if (form.first_name !== user.first_name)
+      payload.first_name = form.first_name;
+    if (form.last_name !== user.last_name) payload.last_name = form.last_name;
+    if (form.email !== user.email) payload.email = form.email;
+
+    if (Object.keys(payload).length === 0) return;
+
+    const updated = await updateProfile(payload);
+    if (updated) setUser(updated);
   };
+
+  const handleChangePassword = async () => {
+    setPasswordMismatch(false);
+
+    if (!passwordForm.current_password || !passwordForm.new_password) return;
+
+    if (passwordForm.new_password !== passwordForm.confirm_password) {
+      setPasswordMismatch(true);
+      return;
+    }
+
+    const ok = await changePassword({
+      old_password: passwordForm.current_password,
+      new_password: passwordForm.new_password,
+    });
+
+    if (ok) {
+      setPasswordForm({
+        current_password: "",
+        new_password: "",
+        confirm_password: "",
+      });
+    }
+  };
+
+  if (isLoadingUser) {
+    return (
+      <div className="text-center text-inv-label py-10">Cargando perfil...</div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="text-center text-red-500 py-10">
+        No se pudo cargar el perfil.
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-6 h-full">
-      {/* Page title */}
       <h1 className="text-center text-2xl font-bold text-inv-dark tracking-widest uppercase">
         Mi Perfil
       </h1>
 
-      {/* Card */}
       <div className="bg-white rounded-2xl border border-inv-border p-8 flex gap-10">
         {/* Left — Avatar + info */}
         <div className="flex flex-col items-center gap-4 min-w-[200px] max-w-[220px] bg-inv-bg-main rounded-xl p-6">
-          {/* Avatar */}
           <div className="w-36 h-36 rounded-full bg-inv-border flex items-center justify-center">
-            <User size={64} className="text-inv-label" />
+            <UserIcon size={64} className="text-inv-label" />
           </div>
 
-          {/* Name + role */}
           <div className="text-center">
             <p className="font-bold text-lg text-inv-dark">
-              {MOCK_USER.first_name} {MOCK_USER.last_name}
+              {user.first_name} {user.last_name}
             </p>
-            <p className="text-sm text-inv-label">{MOCK_USER.role}</p>
+            <p className="text-sm text-inv-label">{user.role}</p>
           </div>
 
-          {/* Details */}
           <div className="text-sm text-inv-dark space-y-1 w-full">
-            <p>CC: {MOCK_USER.identification}</p>
-            <p>Correo: {MOCK_USER.email}</p>
-            <p>Tel: {MOCK_USER.phone}</p>
+            <p>CC: {user.identification}</p>
+            <p>Correo: {user.email}</p>
           </div>
         </div>
 
@@ -105,17 +161,16 @@ export function Profile() {
             Editar información personal
           </h2>
 
-          {/* Personal fields */}
           <div className="grid grid-cols-2 gap-4">
             <Field
               label="Nombres"
               value={form.first_name}
-              onChange={set("first_name")}
+              onChange={setField("first_name")}
             />
             <Field
               label="Apellido"
               value={form.last_name}
-              onChange={set("last_name")}
+              onChange={setField("last_name")}
             />
           </div>
 
@@ -123,45 +178,65 @@ export function Profile() {
             label="Correo electrónico"
             type="email"
             value={form.email}
-            onChange={set("email")}
-          />
-          <Field
-            label="Teléfono celular"
-            type="tel"
-            value={form.phone}
-            onChange={set("phone")}
+            onChange={setField("email")}
           />
 
-          {/* Divider */}
+          {profileError && (
+            <p className="text-sm text-red-500">{profileError}</p>
+          )}
+
+          <div className="flex justify-end">
+            <button
+              onClick={handleSaveProfile}
+              disabled={isSavingProfile}
+              className="flex items-center gap-2 bg-inv-primary hover:bg-[#52449a] disabled:opacity-50 transition-colors text-white text-sm font-semibold px-5 py-2.5 rounded-lg"
+            >
+              {isSavingProfile ? "Guardando..." : "Guardar cambios"}
+            </button>
+          </div>
+
           <div className="border-t border-inv-border" />
 
-          {/* Password fields */}
+          <h2 className="text-base font-bold tracking-widest text-inv-dark uppercase">
+            Cambiar contraseña
+          </h2>
+
           <Field
             label="Contraseña actual"
             type="password"
-            value={form.current_password}
-            onChange={set("current_password")}
+            value={passwordForm.current_password}
+            onChange={setPasswordField("current_password")}
           />
           <Field
             label="Nueva contraseña"
             type="password"
-            value={form.new_password}
-            onChange={set("new_password")}
+            value={passwordForm.new_password}
+            onChange={setPasswordField("new_password")}
           />
           <Field
             label="Confirmar contraseña"
             type="password"
-            value={form.confirm_password}
-            onChange={set("confirm_password")}
+            value={passwordForm.confirm_password}
+            onChange={setPasswordField("confirm_password")}
           />
 
-          {/* Submit */}
+          {passwordMismatch && (
+            <p className="text-sm text-red-500">Las contraseñas no coinciden</p>
+          )}
+          {passwordError && (
+            <p className="text-sm text-red-500">{passwordError}</p>
+          )}
+          {passwordSuccess && (
+            <p className="text-sm text-green-600">{passwordSuccess}</p>
+          )}
+
           <div className="flex justify-end">
             <button
-              onClick={handleSubmit}
-              className="flex items-center gap-2 bg-inv-primary hover:bg-[#52449a] transition-colors text-white text-sm font-semibold px-5 py-2.5 rounded-lg"
+              onClick={handleChangePassword}
+              disabled={isSavingPassword}
+              className="flex items-center gap-2 bg-inv-primary hover:bg-[#52449a] disabled:opacity-50 transition-colors text-white text-sm font-semibold px-5 py-2.5 rounded-lg"
             >
-              Guardar cambios
+              {isSavingPassword ? "Cambiando..." : "Cambiar contraseña"}
             </button>
           </div>
         </div>

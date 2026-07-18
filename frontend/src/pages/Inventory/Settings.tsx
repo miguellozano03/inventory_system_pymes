@@ -1,52 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Building2 } from "lucide-react";
-
-// Replace with real company data from your auth context/store
-const MOCK_COMPANY = {
-  name: "XXXXXX SAS",
-  nit: "XXXXXXX",
-  address: "XXXXXX",
-  email: "XXXXX",
-  logo: null, // URL string when you have it
-};
-
-interface SettingsForm {
-  db_location: string;
-  base_currency: string;
-  default_tax: string;
-  min_stock_alert: string;
-  date_format: string;
-}
+import { useCompany } from "@/hooks/inventory/company";
+import type { CompanyUpdate } from "@/types/company";
 
 interface FieldProps {
   label: string;
+  type?: string;
   value: string;
   onChange: (val: string) => void;
-  inline?: boolean;
 }
 
-function Field({ label, value, onChange, inline = false }: FieldProps) {
-  if (inline) {
-    return (
-      <div className="flex items-center gap-3">
-        <label className="text-sm text-inv-dark whitespace-nowrap min-w-[200px]">
-          {label}
-        </label>
-        <input
-          type="text"
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className="flex-1 rounded-lg border border-inv-border bg-white px-3 py-1.5 text-sm text-inv-dark outline-none focus:border-inv-primary focus:ring-2 focus:ring-inv-primary/20 transition-all"
-        />
-      </div>
-    );
-  }
-
+function Field({ label, type = "text", value, onChange }: FieldProps) {
   return (
     <div className="flex flex-col gap-1">
       <label className="text-xs text-inv-label">{label}</label>
       <input
-        type="text"
+        type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className="w-full rounded-lg border border-inv-border bg-white px-3 py-2 text-sm text-inv-dark outline-none focus:border-inv-primary focus:ring-2 focus:ring-inv-primary/20 transition-all"
@@ -56,131 +25,113 @@ function Field({ label, value, onChange, inline = false }: FieldProps) {
 }
 
 export function Settings() {
-  const [form, setForm] = useState<SettingsForm>({
-    db_location: "",
-    base_currency: "",
-    default_tax: "",
-    min_stock_alert: "",
-    date_format: "",
+  const { company, loading, updating, error, update } = useCompany();
+
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
   });
 
-  const set = (key: keyof SettingsForm) => (val: string) =>
+  useEffect(() => {
+    if (company) {
+      setForm({
+        name: company.name,
+        email: company.email,
+        phone: company.phone,
+      });
+    }
+  }, [company]);
+
+  const setField = (key: keyof typeof form) => (val: string) =>
     setForm((prev) => ({ ...prev, [key]: val }));
 
-  const handleBackup = () => {
-    // TODO: call API to generate .sql backup
-    console.log("Generating backup...");
+  const handleSubmit = async () => {
+    if (!company) return;
+
+    const payload: CompanyUpdate = {};
+    if (form.name !== company.name) payload.name = form.name;
+    if (form.email !== company.email) payload.email = form.email;
+    if (form.phone !== company.phone) payload.phone = form.phone;
+
+    if (Object.keys(payload).length === 0) return;
+
+    await update(payload);
   };
 
-  const handleSubmit = () => {
-    // TODO: call API to save settings
-    console.log("Saving settings:", form);
-  };
+  if (loading) {
+    return (
+      <div className="text-center text-inv-label py-10">
+        Cargando compañía...
+      </div>
+    );
+  }
+
+  if (!company) {
+    return (
+      <div className="text-center text-red-500 py-10">
+        No se pudo cargar la compañía.
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-6 h-full">
-      {/* Main grid */}
-      <div className="grid grid-cols-2 gap-6 items-start">
-        {/* Left — Company card */}
-        <div className="bg-inv-bg-main rounded-2xl border border-inv-border p-8 flex flex-col items-center gap-5">
-          <h2 className="text-base font-semibold text-inv-label">
-            Datos de la compañía
-          </h2>
-          "{/* Logo placeholder */}
-          <div className="w-48 h-36 rounded-2xl bg-inv-border flex items-center justify-center">
-            {MOCK_COMPANY.logo ? (
-              <img
-                src={MOCK_COMPANY.logo}
-                alt="Logo"
-                className="w-full h-full object-cover rounded-2xl"
-              />
-            ) : (
-              <Building2 size={48} className="text-inv-label" />
-            )}
+      <h1 className="text-center text-2xl font-bold text-inv-dark tracking-widest uppercase">
+        Mi Compañía
+      </h1>
+
+      <div className="bg-white rounded-2xl border border-inv-border p-8 flex gap-10">
+        {/* Left — Logo + info */}
+        <div className="flex flex-col items-center gap-4 min-w-[200px] max-w-[220px] bg-inv-bg-main rounded-xl p-6">
+          <div className="w-36 h-36 rounded-2xl bg-inv-border flex items-center justify-center">
+            <Building2 size={48} className="text-inv-label" />
           </div>
-          {/* Company info */}
+
           <div className="text-sm text-inv-dark space-y-1 w-full">
-            <p>Empresa: {MOCK_COMPANY.name}</p>
-            <p>NIT: {MOCK_COMPANY.nit}</p>
-            <p>Dirección: {MOCK_COMPANY.address}</p>
-            <p>Correo: {MOCK_COMPANY.email}</p>
+            <p>Empresa: {company.name}</p>
+            <p>NIT: {company.nit}</p>
+            <p>Correo: {company.email}</p>
+            <p>Tel: {company.phone}</p>
           </div>
         </div>
 
-        {/* Right — Preferences + Maintenance */}
-        <div className="flex flex-col gap-4">
-          {/* App preferences */}
-          <div className="bg-inv-bg-main rounded-2xl border border-inv-border p-6 flex flex-col gap-4">
-            <h2 className="text-base font-semibold text-inv-dark text-center">
-              Preferencias de la aplicación (local)
-            </h2>
+        {/* Right — Edit form */}
+        <div className="flex-1 flex flex-col gap-5">
+          <h2 className="text-base font-bold tracking-widest text-inv-dark uppercase">
+            Editar información de la compañía
+          </h2>
 
-            <Field
-              label="Ubicación de la base de datos (local)"
-              value={form.db_location}
-              onChange={set("db_location")}
-            />
+          <Field
+            label="Nombre de la empresa"
+            value={form.name}
+            onChange={setField("name")}
+          />
+          <Field
+            label="Correo electrónico"
+            type="email"
+            value={form.email}
+            onChange={setField("email")}
+          />
+          <Field
+            label="Teléfono"
+            type="tel"
+            value={form.phone}
+            onChange={setField("phone")}
+          />
 
-            <Field
-              label="Moneda Base:"
-              value={form.base_currency}
-              onChange={set("base_currency")}
-              inline
-            />
-            <Field
-              label="Impuestos por defecto:"
-              value={form.default_tax}
-              onChange={set("default_tax")}
-              inline
-            />
-            <Field
-              label="Alertas de stock mínimo global:"
-              value={form.min_stock_alert}
-              onChange={set("min_stock_alert")}
-              inline
-            />
-            <Field
-              label="Formato de fecha"
-              value={form.date_format}
-              onChange={set("date_format")}
-              inline
-            />
-          </div>
+          {error && <p className="text-sm text-red-500">{error}</p>}
 
-          {/* System maintenance */}
-          <div className="bg-inv-bg-main rounded-2xl border border-inv-border p-6 flex flex-col gap-3">
-            <h2 className="text-base font-semibold text-inv-dark">
-              Mantenimiento del sistema
-            </h2>
-
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-inv-dark">
-                  Copia de seguridad (backup)
-                </p>
-                <p className="text-xs text-inv-label">
-                  Ultimo backup: 12/12/2025
-                </p>
-              </div>
-              <button
-                onClick={handleBackup}
-                className="bg-inv-primary hover:bg-[#52449a] transition-colors text-white text-sm font-semibold px-4 py-2 rounded-lg whitespace-nowrap"
-              >
-                Generar copia .sql
-              </button>
-            </div>
+          <div className="flex justify-end">
+            <button
+              onClick={handleSubmit}
+              disabled={updating}
+              className="bg-inv-primary hover:bg-[#52449a] disabled:opacity-50 transition-colors text-white text-sm font-semibold px-5 py-2.5 rounded-lg"
+            >
+              {updating ? "Guardando..." : "Guardar cambios"}
+            </button>
           </div>
         </div>
-      </div>
-
-      {/* Save button */}
-      <div className="flex justify-end">
-        <button
-          onClick={handleSubmit}
-          className="bg-inv-primary hover:bg-[#52449a] transition-colors text-white text-sm font-semibold px-5 py-2.5 rounded-lg"
-        >
-          Guardar cambios
-        </button>
       </div>
     </div>
   );
