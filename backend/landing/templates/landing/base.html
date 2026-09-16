@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sistema de Gestión de Inventarios{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'landing/css/styles.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-brand">Sistema de Gestión de Inventarios</a>
+            <input type="checkbox" id="nav-toggle" class="nav-toggle-input" aria-label="Abrir menú">
+            <label for="nav-toggle" class="nav-hamburger" aria-label="Menú">
+                <span></span><span></span><span></span>
+            </label>
+            <div class="nav-menu">
+                <ul class="nav-links">
+                    <li><a href="#funcionalidades">Funcionalidades</a></li>
+                    <li><a href="#beneficios">Beneficios</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <a href="{{ docs_url }}" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Manual / Documentación</a>
+                    <a href="{{ login_url }}" class="btn btn-primary">Iniciar Sesión</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">Sistema de Gestión de Inventarios</div>
+            <p class="footer-copy">&copy; 2026 SENA — Gestión de inventarios para PyMEs.</p>
+        </div>
+    </footer>
+</body>
+</html>

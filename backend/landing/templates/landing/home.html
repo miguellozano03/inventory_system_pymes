@@ -1,0 +1,75 @@
+{% extends 'landing/base.html' %}
+
+{% block title %}Inicio — Sistema de Gestión de Inventarios{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-content">
+        <h1>Controla tu inventario de forma sencilla</h1>
+        <p class="hero-subtitle">Administra productos, categorías, clientes, proveedores y transacciones desde una sola plataforma. Diseñado para PyMEs.</p>
+        <div class="hero-actions">
+            <a href="{{ register_url }}" class="btn btn-primary btn-lg">Crear Cuenta</a>
+            <a href="{{ login_url }}" class="btn btn-outline btn-lg">Iniciar Sesión</a>
+        </div>
+    </div>
+</section>
+
+<section id="funcionalidades" class="features">
+    <div class="features-container">
+        <h2 class="section-title">Módulos del Sistema</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📦</div>
+                <h3>Productos</h3>
+                <p>Registra y administra todo el catálogo de productos de tu negocio.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🏷️</div>
+                <h3>Categorías</h3>
+                <p>Organiza tus productos por categorías para encontrarlos rápidamente.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">👥</div>
+                <h3>Clientes</h3>
+                <p>Mantén un registro de tus clientes y su historial de compras.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🚚</div>
+                <h3>Proveedores</h3>
+                <p>Controla la información de tus proveedores y sus productos.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3>Transacciones</h3>
+                <p>Registra entradas y salidas de inventario con trazabilidad completa.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🏢</div>
+                <h3>Multi-empresa</h3>
+                <p>Cada empresa opera con sus propios datos de forma aislada y segura.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="beneficios" class="benefits">
+    <div class="benefits-container">
+        <h2 class="section-title">¿Por qué usar nuestro sistema?</h2>
+        <ul class="benefits-list">
+            <li>Interfaz sencilla e intuitiva, sin curva de aprendizaje.</li>
+            <li>Gestión multi-empresa con datos aislados por tenant.</li>
+            <li>Control completo del flujo de entradas y salidas.</li>
+            <li>Accesible desde cualquier dispositivo con navegador web.</li>
+            <li>API RESTful documentada (Swagger) para integraciones.</li>
+        </ul>
+    </div>
+</section>
+
+<section id="contacto" class="cta">
+    <div class="cta-container">
+        <h2>¿Listo para empezar?</h2>
+        <p>Crea tu cuenta y comienza a gestionar tu inventario hoy mismo.</p>
+        <a href="{{ register_url }}" class="btn btn-primary btn-lg">Registrarse Gratis</a>
+    </div>
+</section>
+{% endblock %}

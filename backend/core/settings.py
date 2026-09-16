@@ -32,6 +32,12 @@ DEBUG = env.bool("DEBUG", default=False)
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[]) # pyright: ignore[reportArgumentType]
 CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS", default=["http://127.0.0.1:5173",]) # pyright: ignore[reportArgumentType]
 
+# URLs de la landing: app (SPA), manual/documentación y auth
+LANDING_APP_URL = env("LANDING_APP_URL", default="http://localhost:5173").rstrip("/")
+LANDING_LOGIN_URL = env("LANDING_LOGIN_URL", default=f"{LANDING_APP_URL}/login")
+LANDING_REGISTER_URL = env("LANDING_REGISTER_URL", default=f"{LANDING_APP_URL}/register")
+LANDING_DOCS_URL = env("LANDING_DOCS_URL", default="#")
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -52,6 +58,8 @@ INSTALLED_APPS = [
     'apps.inventory',
     'apps.contacts',
     'apps.transactions',
+
+    'landing'
 ]
 
 MIDDLEWARE = [
