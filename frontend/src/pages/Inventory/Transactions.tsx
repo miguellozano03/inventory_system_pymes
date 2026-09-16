@@ -9,8 +9,19 @@ const TYPE_LABEL: Record<string, string> = {
   OUT: "📤 Salida",
 };
 
-function toTableRow(t: Transaction) {
+interface TransactionRow {
+  id: string;
+  type: string;
+  customer: string;
+  supplier: string;
+  user: string;
+  total: string;
+  created_at: string;
+}
+
+function toTableRow(t: Transaction): TransactionRow {
   return {
+    id: t.id,
     type: TYPE_LABEL[t.type] ?? t.type,
     customer: t.customer?.name ?? "—",
     supplier: t.supplier?.name ?? "—",
@@ -37,10 +48,10 @@ export function Transactions() {
     {
       key: "actions",
       label: "Acciones",
-      render: (_: any, t: Transaction) => (
+      render: (_: any, row: TransactionRow) => (
         <button
           onClick={async () => {
-            await remove(t.id);
+            await remove(row.id);
             await refetch();
           }}
           className="p-1.5 text-red-500 hover:bg-inv-bg-main rounded-md"
@@ -74,7 +85,7 @@ export function Transactions() {
         columns={columns}
         data={rows}
         loading={loading}
-        rowKey={(t: Transaction) => t.id}
+        rowKey={(row: TransactionRow) => row.id}
       />
     </div>
   );

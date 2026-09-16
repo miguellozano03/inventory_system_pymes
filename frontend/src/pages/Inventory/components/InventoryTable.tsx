@@ -1,9 +1,9 @@
 import React from "react";
 
 interface Column<T> {
-  key: keyof T;
+  key: string;
   label: string;
-  render?: (value: T[keyof T], row: T) => React.ReactNode;
+  render?: (value: any, row: T) => React.ReactNode;
 }
 
 interface InventoryTableProps<T> {
@@ -100,9 +100,9 @@ export function InventoryTable<T>({
                       <span className="block h-3 w-3/4 mx-auto bg-inv-border/40 rounded animate-pulse" />
                     ) : row ? (
                       col.render ? (
-                        col.render(row[col.key], row)
+                        col.render((row as any)[col.key], row)
                       ) : (
-                        ((row[col.key] as React.ReactNode) ?? "—")
+                        (((row as any)[col.key] as React.ReactNode) ?? "—")
                       )
                     ) : (
                       <>&nbsp;</>

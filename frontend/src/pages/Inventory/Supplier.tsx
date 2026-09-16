@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom";
 
 import { InventoryTable } from "./components";
 import { useSuppliers } from "@/hooks/inventory/supplier";
+import { supplierService } from "@/services/supplierService";
 import type { SupplierResponse } from "@/types/inventory";
 
 export function Supplier() {
-  const { suppliers, loading, error, refetch, remove } = useSuppliers();
+  const { suppliers, loading, error, refetch } = useSuppliers();
   const navigate = useNavigate();
 
   const COLUMNS = [
@@ -38,7 +39,7 @@ export function Supplier() {
 
           <button
             onClick={async () => {
-              await remove(supplier.id);
+              await supplierService.delete(supplier.id);
               await refetch();
             }}
             title="Eliminar"

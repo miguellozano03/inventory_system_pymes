@@ -4,14 +4,10 @@ import type { TransactionCreate } from "@/types/inventory";
 
 import TransactionFormFields from "../components/forms/TransactionFormFields";
 
-interface Props {
-  id?: string;
-}
-
-export default function TransactionForm({ id }: Props) {
+export default function TransactionForm() {
   const navigate = useNavigate();
 
-  const { transactions, create, loading, creating } = useTransactions();
+  const { create, loading, creating } = useTransactions();
 
   const handleSubmit = async (payload: TransactionCreate) => {
     try {

@@ -28,9 +28,9 @@ export default function SupplierFormFields({
 
     const payload = {
       name: String(formData.get("name") ?? ""),
-      email: String(formData.get("email") ?? "") || null,
-      phone: String(formData.get("phone") ?? "") || null,
-      address: String(formData.get("address") ?? "") || null,
+      email: String(formData.get("email") ?? "") || undefined,
+      phone: String(formData.get("phone") ?? "") || undefined,
+      address: String(formData.get("address") ?? "") || undefined,
     };
 
     await onSubmit(payload);

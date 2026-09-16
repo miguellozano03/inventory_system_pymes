@@ -145,7 +145,7 @@ export default function ProductFormFields({
           <textarea
             name="description"
             rows={3}
-            defaultValue={product?.description}
+            defaultValue={product?.description ?? ""}
             className="w-full px-3 py-2 border border-inv-border rounded-md focus:outline-none focus:border-inv-primary text-sm"
           />
         </div>

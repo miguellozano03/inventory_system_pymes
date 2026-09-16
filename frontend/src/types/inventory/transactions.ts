@@ -1,20 +1,20 @@
-export interface Customer {
+export interface TransactionCustomer {
   id: string;
   name: string;
 }
 
-export interface Supplier {
+export interface TransactionSupplier {
   id: string;
   name: string;
 }
 
-export interface Product {
+export interface TransactionProduct {
   id: string;
   name: string;
   internal_reference: string;
 }
 
-interface User {
+interface TransactionUser {
   id: string;
   email: string;
 }
@@ -39,7 +39,7 @@ export interface TransactionCreate {
 
 export interface TransactionDetail {
   id: string;
-  product: Product;
+  product: TransactionProduct;
   quantity: number;
   unit_price: number;
   subtotal: number;
@@ -50,11 +50,13 @@ export interface Transaction {
   type: "IN" | "OUT";
   total: number;
 
-  customer?: Customer | null;
-  supplier?: Supplier | null;
-  user?: User | null;
+  customer?: TransactionCustomer | null;
+  supplier?: TransactionSupplier | null;
+  user?: TransactionUser | null;
 
   created_at: string;
 
   details: TransactionDetail[];
 }
+
+export type TransactionResponse = Transaction;

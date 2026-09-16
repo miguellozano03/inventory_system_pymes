@@ -77,7 +77,7 @@ export default function CustomerFormFields({
             type="email"
             name="email"
             required
-            defaultValue={customer?.email}
+            defaultValue={customer?.email ?? ""}
             className="w-full px-3 py-2 border border-inv-border rounded-md focus:outline-none focus:border-inv-primary text-sm"
           />
         </div>
@@ -91,7 +91,7 @@ export default function CustomerFormFields({
             type="text"
             name="phone"
             required
-            defaultValue={customer?.phone}
+            defaultValue={customer?.phone ?? ""}
             className="w-full px-3 py-2 border border-inv-border rounded-md focus:outline-none focus:border-inv-primary text-sm"
           />
         </div>
@@ -105,7 +105,7 @@ export default function CustomerFormFields({
             type="text"
             name="address"
             required
-            defaultValue={customer?.address}
+            defaultValue={customer?.address ?? ""}
             className="w-full px-3 py-2 border border-inv-border rounded-md focus:outline-none focus:border-inv-primary text-sm"
           />
         </div>
