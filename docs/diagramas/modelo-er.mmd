@@ -1,0 +1,101 @@
+erDiagram
+    COMPANIES |o--o{ USERS : "tiene usuarios (FK; PROTECT; nullable en superusuario)"
+    COMPANIES ||--o{ CATEGORIES : "eliminación en cascada (CASCADE)"
+    COMPANIES ||--o{ PRODUCTS : "eliminación en cascada (CASCADE)"
+    COMPANIES ||--o{ SUPPLIERS : "eliminación en cascada (CASCADE)"
+    COMPANIES ||--o{ CUSTOMERS : "eliminación en cascada (CASCADE)"
+    COMPANIES ||--o{ TRANSACTIONS : "eliminación en cascada (CASCADE)"
+    CATEGORIES ||--o{ PRODUCTS : "categoría protegida (PROTECT)"
+    SUPPLIERS |o--o{ PRODUCTS : "proveedor opcional (SET_NULL)"
+    USERS ||--o{ TRANSACTIONS : "usuario protegido (PROTECT)"
+    CUSTOMERS |o--o{ TRANSACTIONS : "cliente opcional (SET_NULL)"
+    SUPPLIERS |o--o{ TRANSACTIONS : "proveedor opcional (SET_NULL)"
+    TRANSACTIONS ||--o{ TRANSACTION_DETAILS : "detalle en cascada (CASCADE)"
+    PRODUCTS ||--o{ TRANSACTION_DETAILS : "producto protegido (PROTECT)"
+
+    COMPANIES {
+        uuid id PK
+        string name
+        string nit UK
+        string email
+        string phone
+        datetime created_at
+        datetime updated_at
+    }
+    USERS {
+        uuid id PK
+        uuid company_id FK
+        string role
+        string email UK
+        string first_name
+        string last_name
+        string identification
+        string password
+        boolean is_active
+        boolean is_staff
+        boolean is_superuser
+        datetime created_at
+        datetime updated_at
+    }
+    CATEGORIES {
+        uuid id PK
+        uuid company_id FK
+        string name UK
+        text description
+    }
+    PRODUCTS {
+        uuid id PK
+        uuid company_id FK
+        uuid category_id FK
+        uuid supplier_id FK
+        string internal_reference UK
+        string name
+        text description
+        integer stock
+        decimal(12,2) cost_price
+        decimal(12,2) sale_price
+        boolean is_active
+        datetime created_at
+        datetime updated_at
+    }
+    SUPPLIERS {
+        uuid id PK
+        uuid company_id FK
+        string name
+        string contact_name
+        string email
+        string phone
+        text address
+        datetime created_at
+        datetime updated_at
+    }
+    CUSTOMERS {
+        uuid id PK
+        uuid company_id FK
+        string name
+        string identification UK
+        string email
+        string phone
+        text address
+        datetime created_at
+        datetime updated_at
+    }
+    TRANSACTIONS {
+        uuid id PK
+        uuid company_id FK
+        uuid user_id FK
+        uuid customer_id FK
+        uuid supplier_id FK
+        string type
+        decimal(12,2) total
+        datetime created_at
+    }
+    TRANSACTION_DETAILS {
+        uuid id PK
+        uuid transaction_id FK
+        uuid product_id FK
+        string product_name
+        integer quantity
+        decimal(12,2) unit_price
+        decimal(12,2) subtotal
+    }

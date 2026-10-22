@@ -1,0 +1,45 @@
+flowchart LR
+    USER["Usuarios / navegador web"] --> FE
+
+    subgraph FE["Frontend SPA - React 19 (Vercel)"]
+        SPA["SPA React 19, Vite 8, Tailwind v4"]
+        AXC["axiosClient src/api/axiosClient.ts<br/>JWT en localStorage - refresh single-flight<br/>emite evento auth_logout"]
+        SPA --> AXC
+    end
+
+    AXC -->|"HTTPS JSON /api/*"| CTRL
+
+    subgraph BE["API Backend - Django Ninja (Render, Docker)"]
+        direction TB
+        CTRL["Controllers ninja-extra<br/>registrados en core/api.py"]
+        SCH["Schemas Pydantic"]
+        SVC["Services - lógica de negocio"]
+        MOD["Models + ORM Django"]
+        JWT["ninja-jwt - rutas /api/token/*"]
+        SWG["Swagger /api/docs"]
+        CTRL --> SCH
+        CTRL --> SVC
+        CTRL --> MOD
+        CTRL --> JWT
+        CTRL --> SWG
+    end
+
+    MOD -->|"psycopg 3"| DB[("PostgreSQL externo (PROD)<br/>Supabase / Neon")]
+
+    subgraph EXT["Extensiones del mismo backend"]
+        ADM["Django Admin /admin"]
+        LND["Landing - plantillas Django y CSS estático"]
+        WN["WhiteNoise - estáticos"]
+        ADM --> WN
+        LND --> WN
+    end
+
+    subgraph DEV["Entorno local - docker compose"]
+        PGL[("PostgreSQL 16 - puerto 5433")]
+        BDL["Backend Docker (ENVIRONMENT=PROD)"]
+        FDL["Frontend dev - Vite puerto 5173"]
+        BDL --> PGL
+    end
+
+    SEC["Secretos y variables de entorno<br/>.env y paneles de Render / Vercel"] -.-> BE
+    SEC -.-> FE

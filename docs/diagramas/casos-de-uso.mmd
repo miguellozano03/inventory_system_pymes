@@ -1,0 +1,74 @@
+usecase-beta
+%% Sistema de inventario SaaS para PyMEs - casos de uso
+accTitle: Casos de uso del sistema de inventario
+direction TB
+actor Anon("Usuario no autenticado")
+actor ADMIN("Administrador")
+actor SELLER("Vendedor")
+actor VIEWER("Observador")
+
+systemBoundary AUTH["Autenticación"]@{ type: package }
+  UC_Register("Registrarse")
+  UC_Login("Iniciar sesión (JWT)")
+  UC_Me("Consultar perfil")
+  UC_MeUpd("Actualizar perfil")
+  UC_Pwd("Cambiar contraseña")
+end
+
+systemBoundary COMPANY["Compañía"]@{ type: package }
+  UC_CoMe("Consultar mi empresa")
+  UC_CoEdit("Editar mi empresa")
+end
+
+systemBoundary INVENTORY["Inventario"]@{ type: package }
+  UC_Cat("Gestionar categorías")
+  UC_Prod("Gestionar productos")
+end
+
+systemBoundary CONTACTS["Contactos"]@{ type: package }
+  UC_Cust("Gestionar clientes")
+  UC_Supp("Gestionar proveedores")
+end
+
+systemBoundary TRANSACTIONS["Transacciones"]@{ type: package }
+  UC_TrxIn("Registrar entrada (compra)")
+  UC_TrxOut("Registrar salida (venta)")
+  UC_TrxList("Listar transacciones")
+  UC_TrxDel("Eliminar transacción")
+end
+
+systemBoundary USRS["Usuarios"]@{ type: package }
+  UC_Users("Administrar usuarios de la compañía")
+end
+
+Anon --> UC_Register
+Anon --> UC_Login
+ADMIN --> UC_Me
+ADMIN --> UC_MeUpd
+ADMIN --> UC_Pwd
+ADMIN --> UC_CoMe
+ADMIN --> UC_CoEdit
+ADMIN --> UC_Cat
+ADMIN --> UC_Prod
+ADMIN --> UC_Cust
+ADMIN --> UC_Supp
+ADMIN --> UC_TrxIn
+ADMIN --> UC_TrxOut
+ADMIN --> UC_TrxList
+ADMIN --> UC_TrxDel
+ADMIN --> UC_Users
+SELLER --> UC_Me
+SELLER --> UC_Cat
+SELLER --> UC_Prod
+SELLER --> UC_Cust
+SELLER --> UC_Supp
+SELLER --> UC_TrxIn
+SELLER --> UC_TrxOut
+SELLER --> UC_TrxList
+VIEWER --> UC_Me
+VIEWER --> UC_CoMe
+VIEWER --> UC_TrxList
+SELLER --|> VIEWER
+ADMIN --|> SELLER
+UC_Me ..> : include UC_Login
+UC_TrxOut ..> : include UC_Login
