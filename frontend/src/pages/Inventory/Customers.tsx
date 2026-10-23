@@ -39,6 +39,8 @@ export function Customers() {
 
   return (
     <div className="flex flex-col gap-4 h-full">
+      <h1 className="text-2xl font-bold text-inv-dark">Clientes</h1>
+
       {error && (
         <div className="text-sm text-red-500 bg-red-50 border border-red-200 rounded-lg px-4 py-2">
           {error}

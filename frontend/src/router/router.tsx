@@ -8,6 +8,7 @@ import {
   Transactions,
   Profile,
   Settings,
+  Home,
 } from "@/pages/Inventory";
 import InventoryFormPage from "@/pages/Inventory/InventoryFormPage"; // Importamos tu nuevo formulario
 import { InventoryLayout } from "@/layouts";
@@ -40,6 +41,7 @@ export const router = createBrowserRouter([
         path: "/dashboard",
         element: <InventoryLayout />,
         children: [
+          { index: true, element: <Home /> },
           { path: "products", element: <Product /> },
           { path: "customers", element: <Customers /> },
           { path: "transactions", element: <Transactions /> },

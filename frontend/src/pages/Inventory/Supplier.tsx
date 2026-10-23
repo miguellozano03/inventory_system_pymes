@@ -53,6 +53,8 @@ export function Supplier() {
 
   return (
     <div className="flex flex-col gap-4">
+      <h1 className="text-2xl font-bold text-inv-dark">Proveedores</h1>
+
       {error && <p className="text-red-500">{error}</p>}
 
       <button

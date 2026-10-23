@@ -90,6 +90,8 @@ export function Product() {
 
   return (
     <div className="flex flex-col gap-4 h-full">
+      <h1 className="text-2xl font-bold text-inv-dark">Productos</h1>
+
       {error && <div className="text-red-500 text-sm">{error}</div>}
 
       <div className="flex items-center gap-3 flex-wrap">
